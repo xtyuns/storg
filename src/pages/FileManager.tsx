@@ -2,6 +2,10 @@ import { Box, Checkbox, Stack, Table, TableBody, TableCell, TableContainer, Tabl
 
 export default function FileManager() {
     const fileInfoNames = ['Name', 'Size', 'Type', 'Modified'];
+    const fileIconMap: { [k: string]: string } = {
+        folder: '/folder.svg',
+        jpg: '/img.svg'
+    };
     const files = [
         {
             name: 'Docs',
@@ -19,6 +23,12 @@ export default function FileManager() {
             name: 'cover-12.jpg',
             size: '2.2 MB',
             type: 'jpg',
+            modified: new Date(),
+        },
+        {
+            name: 'backup',
+            size: '12.2 MB',
+            type: '',
             modified: new Date(),
         },
     ];
@@ -42,7 +52,7 @@ export default function FileManager() {
                             </TableCell>
                             <TableCell>
                                 <Stack direction="row" alignItems="center" gap="16px">
-                                    <Box component="img" src={f.type == 'folder' ? '/folder.svg' : '/img.svg'} sx={{ width: '36px', height: '36px' }} />
+                                    <Box component="img" src={fileIconMap[f.type] ?? '/unknown.svg'} sx={{ width: '36px', height: '36px' }} />
                                     <Typography noWrap>{f.name}</Typography>
                                 </Stack>
                             </TableCell>
