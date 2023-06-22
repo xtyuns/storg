@@ -1,11 +1,16 @@
 export class Driver {
-    name: string;
+    name!: string;
+    sayHello!: () => string;
+    [k: string]: any;
 
     constructor(obj: any) {
-        if(!obj.name) {
-            throw Error("prop 'name' is missing");
-        }
-        this.name = obj.name;
+        const checkProperties: { [k: string]: any } = { name: 'string', sayHello: 'function' };
+        Object.keys(checkProperties).forEach(k => {
+            if (typeof obj[k] !== checkProperties[k]) {
+                throw new Error(`Property '${k}' is missing or has an incorrect type.`);
+            }
+            this[k] = obj[k];
+        });
     }
 }
 
@@ -25,6 +30,10 @@ class DriverManager {
 
     getDriver(driverName: string): Driver {
         return this.driver.core[driverName] || this.driver.customized[driverName];
+    }
+
+    driverNames(): string[] {
+        return [...new Set([...Object.keys(this.driver.core), ...Object.keys(this.driver.customized)])];
     }
 }
 

@@ -16,8 +16,14 @@ async function loadCustomizedDrivers() {
         }
 
         try {
+            /* example.js
+                const driver = {
+                    name: 'example',
+                    sayHello: () => '你好'
+                }
+             */
             const content = await fs.readTextFile(fn.path);
-            const obj = eval?.(`(${content})`); // todo cannot eval obj
+            const obj = Function(`${content};return driver;`)(); // todo cannot eval obj
             const driver = new Driver(obj); // todo: cannnot construct Driver instance
             customizedDrivers[driver.name] = driver;
         } catch (e) {
