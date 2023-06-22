@@ -11,7 +11,7 @@ async function loadCustomizedDrivers() {
 
     const fns = await fs.readDir(dirName, { dir: dirPath });
     for (const fn of fns) {
-        if (fn.children) {
+        if (fn.children || !fn.path?.endsWith('.js')) {
             continue;
         }
 
